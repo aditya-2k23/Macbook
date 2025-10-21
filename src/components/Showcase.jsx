@@ -59,7 +59,7 @@ const Showcase = () => {
                 <span className="text-white">
                   M4, the next generation of Apple silicon
                 </span>
-                . M4 powers the new Macbook Pro, delivering incredible
+                . M4 powers the new MacBook Pro, delivering incredible
                 performance and enabling advanced features.
               </p>
               <p>
