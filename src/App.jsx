@@ -1,5 +1,11 @@
+import Navbar from "./components/Navbar";
+
 const App = () => {
-  return <h1 className="text-7xl text-green-600">Hello, Apple Macbook Pro!</h1>;
+  return (
+    <main>
+      <Navbar />
+    </main>
+  );
 };
 
 export default App;
