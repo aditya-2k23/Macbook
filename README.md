@@ -177,6 +177,70 @@ if (!isTablet) {
 - Icon animations
 - Hover effects
 
+## 🗂️ Project Structure
+
+```
+├── public/                 # Static assets served as-is
+│   ├── models/             # GLB files for the 14" and 16" MacBook Pro
+│   ├── videos/             # MP4 clips used in feature carousel and hero
+│   └── *.png / *.svg       # Icons, masks, performance imagery, fonts
+├── src/
+│   ├── App.jsx             # Page composition + ScrollTrigger registration
+│   ├── main.jsx            # React entry point
+│   ├── index.css           # Tailwind v4 + custom theme tokens/utilities
+│   ├── store/              # Zustand store for color/scale/texture state
+│   ├── constants/          # Data for nav, features, performance layout
+│   └── components/
+│       ├── Hero.jsx        # Intro headline + hero video/cta
+│       ├── Navbar.jsx      # Apple-like top navigation
+│       ├── ProductViewer.jsx # 3D viewer shell + controls
+│       ├── Showcase.jsx    # Scroll-triggered video/mask section
+│       ├── Performance.jsx # Floating performance imagery grid
+│       ├── Features.jsx    # Feature carousel tied to GSAP sequence
+│       ├── Highlights.jsx  # Masonry-style highlight cards
+│       ├── Footer.jsx      # Footer links and legal
+│       ├── models/         # R3F wrappers for MacBook meshes
+│       └── three/          # Canvas scaffolding & lights (ModelSwitcher, StudioLights)
+├── package.json            # Scripts and dependency versions
+├── vite.config.js          # Vite + React plugin setup
+└── eslint.config.js        # Linting rules
+```
+
+## ⚙️ Architecture & Data Flow
+
+- **State (Zustand):** `src/store/index.js` tracks `color`, `scale`, and `texture` for the 3D viewer, with a `reset` helper so components can quickly revert to defaults.
+- **3D pipeline:** `ProductViewer` renders `ModelSwitcher` (R3F Canvas) which swaps between 14" and 16" GLTF meshes, applies the current color to all changeable mesh parts (`noChangeParts` ignored), and uses `StudioLights` for consistent lighting.
+- **Animation orchestration:** GSAP ScrollTrigger timelines live inside each section (e.g., `Showcase`, `Performance`, `Highlights`, `Features`), while global plugin registration happens once in `App.jsx`.
+- **Content configuration:** `src/constants/index.js` centralizes nav items, feature metadata, performance image positions, and the feature video sequence so copy or assets can be edited without touching component logic.
+- **Styling:** Tailwind v4 utilities are extended in `index.css` with custom fonts, colors, and small utility shorthands (`flex-center`, `h3-semibold`, etc.) plus CSS variables for gradients and scrollbars.
+
+## 🎞️ Animation & Interaction Notes
+
+- **Scroll sections:** Most sections pin or scrub based on GSAP ScrollTrigger; mobile breakpoints reduce or disable heavy effects via media queries and conditional hooks.
+- **Feature sequence:** `featureSequence` drives synchronized video swaps and card reveals; delays ensure the hero video finishes before subsequent clips start.
+- **3D controls:** Camera framing and float effects are handled by `@react-three/drei` helpers (`PresentationControls`, `Float`), while material updates are driven by Zustand state setters.
+
+## 🖼️ Assets & Performance
+
+- All heavy assets (GLB models, MP4 feature clips, masks, performance PNG/JPGs, and custom OTF fonts) live in `public/` for direct Vite serving.
+- Videos are optimized for web playback; models are compressed and selectively recolored to keep GPU work minimal.
+- Some animations are intentionally toned down on tablet/mobile to protect frame rate and battery.
+
+## 🧑‍💻 Development Workflow
+
+1. `npm install` — install dependencies.
+2. `npm run dev` — start Vite dev server at `http://localhost:5173`.
+3. `npm run build` — create production bundle in `dist/`.
+4. `npm run preview` — preview the production build locally.
+5. `npm run lint` — run ESLint for code quality.
+
+## 🛠️ Customization Tips
+
+- **Change default color/scale/video:** Edit defaults in `src/store/index.js`.
+- **Swap feature videos or text:** Update `featureSequence` and `features` entries in `src/constants/index.js`.
+- **Tweak 3D lighting:** Adjust intensity/position in `src/components/three/StudioLights.jsx`.
+- **Replace assets:** Drop new files in `public/` and update paths in constants or components; Vite will serve them without extra config.
+
 ## 🚦 Getting Started
 
 ### Prerequisites
