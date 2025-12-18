@@ -208,8 +208,8 @@ if (!isTablet) {
 
 ## ⚙️ Architecture & Data Flow
 
-- **State (Zustand):** `src/store/index.js` tracks `color`, `scale`, and `texture` for the 3D viewer, with a `reset` helper so components can quickly revert to defaults.
-- **3D pipeline:** `ProductViewer` renders `ModelSwitcher` (R3F Canvas) which swaps between 14" and 16" GLTF meshes, applies the current color to all changeable mesh parts (`noChangeParts` ignored), and uses `StudioLights` for consistent lighting.
+- **State (Zustand):** `src/store/index.js` tracks the MacBook finish (`color`), size toggle (`scale`), and active feature video (`texture`) for the 3D viewer, with a `reset` helper so components can quickly revert to defaults.
+- **3D pipeline:** `ProductViewer` renders `ModelSwitcher` (R3F Canvas) which swaps between 14" and 16" GLTF meshes based on the current `scale`, applies the chosen finish color to changeable mesh parts (`noChangeParts` ignored), and uses `StudioLights` for consistent lighting.
 - **Animation orchestration:** GSAP ScrollTrigger timelines live inside each section (e.g., `Showcase`, `Performance`, `Highlights`, `Features`), while global plugin registration happens once in `App.jsx`.
 - **Content configuration:** `src/constants/index.js` centralizes nav items, feature metadata, performance image positions, and the feature video sequence so copy or assets can be edited without touching component logic.
 - **Styling:** Tailwind v4 utilities are extended in `index.css` with custom fonts, colors, and small utility shorthands (`flex-center`, `h3-semibold`, etc.) plus CSS variables for gradients and scrollbars.
@@ -222,7 +222,7 @@ if (!isTablet) {
 
 ## 🖼️ Assets & Performance
 
-- All heavy assets (GLB models, MP4 feature clips, masks, performance PNG/JPGs, and custom OTF fonts) live in `public/` for direct Vite serving.
+- All heavy assets (GLB models, MP4 feature clips, masks, performance PNG/JPGs, and custom OTF fonts under `public/fonts/`) live in `public/` for direct Vite serving.
 - Videos are optimized for web playback; models are compressed and selectively recolored to keep GPU work minimal.
 - Some animations are intentionally toned down on tablet/mobile to protect frame rate and battery.
 
