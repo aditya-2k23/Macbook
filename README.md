@@ -46,11 +46,17 @@ The app uses Zustand for managing global state:
 
 ```javascript
 // store/index.js
-const useStore = create((set) => ({
-  model: "MacBook Pro 14",
-  color: "Space Black",
-  setModel: (model) => set({ model }),
+const useMacbookStore = create((set) => ({
+  color: "#adb5bd",
   setColor: (color) => set({ color }),
+
+  scale: 0.08,
+  setScale: (scale) => set({ scale }),
+
+  texture: "/videos/feature-1.mp4",
+  setTexture: (texture) => set({ texture }),
+
+  reset: () => set({ color: "#adb5bd", scale: 0.08, texture: "/videos/feature-1.mp4" }),
 }));
 ```
 
@@ -179,7 +185,7 @@ if (!isTablet) {
 
 ## 🗂️ Project Structure
 
-```
+```plaintext
 ├── public/                 # Static assets served as-is
 │   ├── models/             # GLB files for the 14" and 16" MacBook Pro
 │   ├── videos/             # MP4 clips used in feature carousel and hero
